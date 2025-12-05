@@ -12,12 +12,12 @@ import org.springframework.context.annotation.Profile;
 public class OpenAPIConfig {
 
     @Bean
-    @Profile("!prod")
-    public OpenAPI localOpenAPI() {
+    @Profile("local")
+    public OpenAPI localOpenAPI(@Value("${server.port}") int port) {
         return new OpenAPI()
                 .info(new Info().title("API сервиса рационального ассистента (локально)"))
                 .addServersItem(new Server()
-                        .url("http://localhost:8080")
+                        .url("http://localhost:" + port)
                         .description("Local development"));
     }
 

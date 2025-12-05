@@ -7,16 +7,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.svids.tbankcooldownapi.repository.UserRepo;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Component
 @Slf4j
@@ -24,6 +22,7 @@ import java.util.UUID;
 public class UserAuthFilter extends OncePerRequestFilter {
 
     private final UserRepo userRepo;
+    private final Environment environment;
 
     private static final List<String> EXCLUDED_PATHS = List.of(
         "/api/user/authenticate",
@@ -38,11 +37,12 @@ public class UserAuthFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws ServletException, IOException {
-        
-        String requestPath = request.getRequestURI();
+
+        boolean isNoAuth = Arrays.stream(environment.getActiveProfiles()).anyMatch(x -> x.equalsIgnoreCase("noauth"));
 
         // Проверяем, нужно ли проверять аутентификацию для этого пути
-        if (isExcludedPath(requestPath)) {
+        String requestPath = request.getRequestURI();
+        if (isNoAuth || isExcludedPath(requestPath)) {
             filterChain.doFilter(request, response);
             return;
         }
