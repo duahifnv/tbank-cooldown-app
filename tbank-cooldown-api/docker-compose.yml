@@ -1,0 +1,17 @@
+services:
+  cooldown-db:
+    container_name: cooldown-db
+    image: postgres:17.2
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - ./docker/initdb:/docker-entrypoint-initdb.d
+      - cooldown-db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+volumes:
+  cooldown-db-data:
