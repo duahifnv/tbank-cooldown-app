@@ -1,5 +1,5 @@
 package org.svids.tbankcooldownapi.entity;
 
-public enum StatusType {
+public enum PurchaseStatus {
     PURCHASED, WISHED, CANCELLED
 }

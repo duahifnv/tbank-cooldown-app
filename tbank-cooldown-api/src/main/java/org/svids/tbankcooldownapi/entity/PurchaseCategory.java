@@ -1,6 +1,6 @@
 package org.svids.tbankcooldownapi.entity;
 
-public enum ItemCategoryType {
+public enum PurchaseCategory {
     ELECTRONICS("Электроника"),
     CLOTHING("Одежда"),
     FOOD("Еда"),
@@ -9,7 +9,7 @@ public enum ItemCategoryType {
 
     final String name;
 
-    ItemCategoryType(String name) {
+    PurchaseCategory(String name) {
         this.name = name;
     }
 }

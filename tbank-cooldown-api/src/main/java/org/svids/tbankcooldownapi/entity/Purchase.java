@@ -24,17 +24,17 @@ public class Purchase {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 64)
-    private StatusType status;
+    private PurchaseStatus status;
 
-    @Column(name = "item_name", nullable = false, length = 256)
-    private String itemName;
+    @Column(name = "name", nullable = false, length = 256)
+    private String name;
 
-    @Column(name = "item_price", nullable = false, precision = 10, scale = 2)
-    private BigDecimal itemPrice;
+    @Column(name = "cost", nullable = false, precision = 10, scale = 2)
+    private BigDecimal cost;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "item_category", length = 64)
-    private ItemCategoryType itemCategory;
+    @Column(name = "category", length = 64)
+    private PurchaseCategory category;
 
     @Column(name = "purchased_at", nullable = false)
     private LocalDateTime purchasedAt = LocalDateTime.now();
