@@ -1,4 +1,4 @@
 # tbank-cooldown-app
 
-Cyber Garden 2025 Hackathon.
+Cyber Garden 2025 Hackathon!
 
