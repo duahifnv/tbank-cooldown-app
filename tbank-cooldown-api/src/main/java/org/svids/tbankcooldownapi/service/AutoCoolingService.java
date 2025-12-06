@@ -9,6 +9,8 @@ import org.svids.tbankcooldownapi.repository.AutoCoolingRepo;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +23,10 @@ public class AutoCoolingService {
         AutoCooling autoCooling = new AutoCooling();
         autoCooling.setUser(user);
         autoCoolingRepo.save(autoCooling);
+    }
+
+    public Optional<AutoCooling> findByUserId(UUID userId) {
+        return autoCoolingRepo.findByUser_Id(userId);
     }
 
     /**

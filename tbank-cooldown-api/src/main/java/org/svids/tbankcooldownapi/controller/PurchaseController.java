@@ -21,8 +21,10 @@ import org.svids.tbankcooldownapi.dto.purchase.wished.WishedPurchases;
 import org.svids.tbankcooldownapi.dto.purchase.wished.WishedStatusRequest;
 import org.svids.tbankcooldownapi.entity.Purchase;
 import org.svids.tbankcooldownapi.entity.PurchaseStatus;
+import org.svids.tbankcooldownapi.entity.User;
 import org.svids.tbankcooldownapi.mapper.PurchaseMapper;
 import org.svids.tbankcooldownapi.service.PurchaseService;
+import org.svids.tbankcooldownapi.service.UserService;
 
 import java.util.Set;
 import java.util.UUID;
@@ -37,6 +39,7 @@ import java.util.UUID;
 public class PurchaseController {
     private final PurchaseService purchaseService;
     private final PurchaseMapper purchaseMapper;
+    private final UserService userService;
 
     @Operation(
             summary = "Получить историю покупок",
@@ -177,8 +180,11 @@ public class PurchaseController {
                     required = true
             )
             @RequestBody PurchaseAnalysisRequest request) {
-
-        return ResponseEntity.ok(purchaseService.analyzePurchase(userId, request));
+        User user = userService.findById(userId).orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.UNAUTHORIZED,
+                "Пользователь не найден"
+        ));
+        return ResponseEntity.ok(purchaseService.analyzePurchase(user, request));
     }
 
     @Operation(

@@ -10,10 +10,7 @@ import org.svids.tbankcooldownapi.dto.analyze.data.ManualCoolingData;
 import org.svids.tbankcooldownapi.dto.analyze.data.PurchaseAnalysisResult;
 import org.svids.tbankcooldownapi.dto.analyze.request.PurchaseAnalysisRequest;
 import org.svids.tbankcooldownapi.entity.*;
-import org.svids.tbankcooldownapi.repository.AutoCoolingRepo;
-import org.svids.tbankcooldownapi.repository.ManualCoolingRepo;
 import org.svids.tbankcooldownapi.repository.PurchaseRepo;
-import org.svids.tbankcooldownapi.repository.UserRepo;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,18 +21,17 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PurchaseService {
     private final PurchaseRepo purchaseRepo;
-    private final UserRepo userRepo;
 
-    private final AutoCoolingRepo autoCoolingRepo;
-    private final ManualCoolingRepo manualCoolingRepo;
+    private final UserService userService;
     private final AutoCoolingService autoCoolingService;
+    private final ManualCoolingService manualCoolingService;
 
     public List<Purchase> getPurchases(UUID userId, Set<PurchaseStatus> statuses) {
         return purchaseRepo.findAllByStatusInAndUser_Id(statuses, userId);
     }
 
     public UUID savePurchase(UUID userId, Purchase entity) {
-        User user = userRepo.findById(userId).orElseThrow(
+        User user = userService.findById(userId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR)); // Прошел мимо фильтра без userId
         entity.setUser(user);
         return purchaseRepo.save(entity).getId();
@@ -50,11 +46,17 @@ public class PurchaseService {
         purchaseRepo.save(purchase);
     }
 
-    public PurchaseAnalysisResult analyzePurchase(UUID userId, PurchaseAnalysisRequest request) {
+    public PurchaseAnalysisResult analyzePurchase(User user, PurchaseAnalysisRequest request) {
+        UUID userId = user.getId();
         boolean isAutoCoolingEnabled = isAutoCoolingEnabled(userId);
 
+        // Выбрана одна из забаненных категорий
+        if (user.getBannedCategories().contains(request.category())) {
+            return PurchaseAnalysisResult.withBannedCategory();
+        }
+
         if (isAutoCoolingEnabled) {
-            AutoCooling autoCooling = autoCoolingRepo.findByUser_Id(userId)
+            AutoCooling autoCooling = autoCoolingService.findByUserId(userId)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR));
 
             int comfortableDays = autoCoolingService.calculateComfortableDays(autoCooling, request.cost());
@@ -64,7 +66,7 @@ public class PurchaseService {
                     PurchaseAnalysisResult.withCooling(true, coolingData, comfortableDays) :
                     PurchaseAnalysisResult.withoutCooling(true, coolingData);
         } else {
-            ManualCooling manualCooling = manualCoolingRepo.findByUser_Id(userId)
+            ManualCooling manualCooling = manualCoolingService.findByUserId(userId)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR));
 
             CoolingData coolingData = new ManualCoolingData(manualCooling.getMinCost(), manualCooling.getMaxCost());
@@ -76,7 +78,7 @@ public class PurchaseService {
     }
 
     private boolean isAutoCoolingEnabled(UUID userId) {
-        return userRepo.findById(userId).map(User::isAutoCoolingEnabled).orElse(false);
+        return userService.findById(userId).map(User::isAutoCoolingEnabled).orElse(false);
     }
 
     private boolean isManualCooling(PurchaseAnalysisRequest request, ManualCooling manualCooling) {
