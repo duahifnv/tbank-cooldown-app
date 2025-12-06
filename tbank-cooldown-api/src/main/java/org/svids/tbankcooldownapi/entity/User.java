@@ -22,4 +22,7 @@ public class User {
     @Column(name = "about", length = Integer.MAX_VALUE)
     private String about;
 
+    @Column(name = "auto_cooling")
+    private boolean autoCooling;
+
 }

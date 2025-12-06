@@ -14,7 +14,6 @@ import org.svids.tbankcooldownapi.entity.PurchaseStatus;
 import org.svids.tbankcooldownapi.mapper.PurchaseMapper;
 import org.svids.tbankcooldownapi.service.PurchaseService;
 
-import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
@@ -24,8 +23,6 @@ import java.util.UUID;
 public class PurchaseController {
     private final PurchaseService purchaseService;
     private final PurchaseMapper purchaseMapper;
-
-    private final Random random = new Random();
 
     // Список добавленных покупок
     @GetMapping
@@ -59,8 +56,7 @@ public class PurchaseController {
     @PostMapping("/analysis")
     public ResponseEntity<PurchaseAnalysisResult> analyzePurchase(@RequestHeader(value = AuthDto.AUTH_HEADER, defaultValue = "35cf7863-8110-46dd-a92d-99175ea9ed38") UUID userId,
                                                                   @RequestBody PurchaseAnalysisRequest request) {
-        // здесь анализ и возврат результата
-        return ResponseEntity.ok(new PurchaseAnalysisResult(random.nextBoolean(), random.nextInt(0, 100)));
+        return ResponseEntity.ok(purchaseService.analyzePurchase(userId, request));
     }
 
     // Изменение статуса желаемой покупки
