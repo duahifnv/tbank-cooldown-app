@@ -39,4 +39,6 @@ public class Purchase {
     @Column(name = "purchased_at", nullable = false)
     private LocalDateTime purchasedAt = LocalDateTime.now();
 
+    @Column(name = "cooling_timeout")
+    private Integer coolingTimeout;
 }

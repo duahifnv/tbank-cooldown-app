@@ -51,6 +51,9 @@ public class PurchaseController {
         if (request.status().equals(PurchaseStatus.CANCELLED)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Установить статус отмененной покупки можно только после добавления покупки");
         }
+        if (!request.status().equals(PurchaseStatus.WISHED) && request.coolingTimeout() != 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Невозможно задать охлаждение покупке без статуса 'желаемая'");
+        }
         return ResponseEntity.ok(
                 new PurchaseResult(purchaseService.savePurchase(userId, purchaseMapper.toEntity(request))
         ));

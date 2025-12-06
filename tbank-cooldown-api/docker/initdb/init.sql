@@ -30,5 +30,6 @@ CREATE TABLE purchases(
       name VARCHAR(256) NOT NULL,
       cost NUMERIC(10, 2) NOT NULL,
       category VARCHAR(64),
-      purchased_at TIMESTAMP NOT NULL DEFAULT now()
+      purchased_at TIMESTAMP NOT NULL DEFAULT now(),
+      cooling_timeout INTEGER
 );

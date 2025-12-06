@@ -8,5 +8,6 @@ import java.math.BigDecimal;
 public record PurchaseRequest(String name,
                               BigDecimal cost,
                               PurchaseCategory category,
-                              PurchaseStatus status) {
+                              PurchaseStatus status,
+                              int coolingTimeout) {
 }

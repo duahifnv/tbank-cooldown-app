@@ -14,6 +14,6 @@ public record WishedPurchases(List<PurchaseDto> purchases) {
                               BigDecimal cost,
                               PurchaseCategory category,
                               LocalDate wishedDate,
-                              int coolingTimeout) {
+                              Integer coolingTimeout) {
     }
 }
