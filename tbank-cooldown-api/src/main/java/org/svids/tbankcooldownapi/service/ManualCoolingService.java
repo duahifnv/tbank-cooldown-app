@@ -2,7 +2,7 @@ package org.svids.tbankcooldownapi.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.svids.tbankcooldownapi.dto.analyze.request.ManualCoolingRequest;
+import org.svids.tbankcooldownapi.dto.profile.ManualCoolingDto;
 import org.svids.tbankcooldownapi.entity.ManualCooling;
 import org.svids.tbankcooldownapi.entity.User;
 import org.svids.tbankcooldownapi.repository.ManualCoolingRepo;
@@ -25,7 +25,7 @@ public class ManualCoolingService {
         return manualCoolingRepo.findByUser_Id(userId);
     }
 
-    public void updateCooling(ManualCooling manualCooling, ManualCoolingRequest request) {
+    public void updateCooling(ManualCooling manualCooling, ManualCoolingDto request) {
         manualCooling.setMinCost(request.minCost());
         manualCooling.setMaxCost(request.maxCost());
         manualCooling.setCoolingTimeout(request.coolingTimeout());

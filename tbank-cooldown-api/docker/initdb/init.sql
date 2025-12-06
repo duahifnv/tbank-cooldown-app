@@ -2,7 +2,8 @@ CREATE TABLE users(
       id UUID PRIMARY KEY,
       nickname VARCHAR(256),
       about TEXT,
-      auto_cooling BOOLEAN NOT NULL DEFAULT false
+      auto_cooling BOOLEAN NOT NULL DEFAULT false,
+      banned_categories TEXT[]
 );
 
 CREATE TABLE manual_coolings(

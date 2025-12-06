@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -23,6 +24,10 @@ public class User {
     private String about;
 
     @Column(name = "auto_cooling")
-    private boolean autoCooling;
+    private boolean autoCoolingEnabled;
+
+    @Column(name = "banned_categories", columnDefinition = "text[]")
+    @Convert(converter = PurchaseCategorySetConverter.class)
+    private Set<PurchaseCategory> bannedCategories;
 
 }

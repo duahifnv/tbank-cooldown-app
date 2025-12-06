@@ -76,7 +76,7 @@ public class PurchaseService {
     }
 
     private boolean isAutoCoolingEnabled(UUID userId) {
-        return userRepo.findById(userId).map(User::isAutoCooling).orElse(false);
+        return userRepo.findById(userId).map(User::isAutoCoolingEnabled).orElse(false);
     }
 
     private boolean isManualCooling(PurchaseAnalysisRequest request, ManualCooling manualCooling) {
