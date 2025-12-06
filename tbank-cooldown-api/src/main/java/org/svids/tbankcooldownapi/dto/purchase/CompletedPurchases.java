@@ -9,6 +9,11 @@ import java.util.List;
 import java.util.UUID;
 
 public record CompletedPurchases(List<PurchaseDto> purchases) {
-    public record PurchaseDto(UUID id, String name, BigDecimal price, PurchaseCategory category, LocalDate date, PurchaseStatus status) {
+    public record PurchaseDto(UUID id,
+                              String name,
+                              BigDecimal cost,
+                              PurchaseCategory category,
+                              LocalDate date,
+                              PurchaseStatus status) {
     }
 }

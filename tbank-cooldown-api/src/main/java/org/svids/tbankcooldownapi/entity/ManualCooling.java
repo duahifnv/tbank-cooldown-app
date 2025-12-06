@@ -21,11 +21,11 @@ public class ManualCooling {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "min_price", nullable = false, precision = 10, scale = 2)
-    private BigDecimal minPrice;
+    @Column(name = "min_cost", nullable = false, precision = 10, scale = 2)
+    private BigDecimal minCost;
 
-    @Column(name = "max_price", nullable = false, precision = 10, scale = 2)
-    private BigDecimal maxPrice;
+    @Column(name = "max_cost", nullable = false, precision = 10, scale = 2)
+    private BigDecimal maxCost;
 
     @Column(name = "cooling_timeout", nullable = false)
     private Integer coolingTimeout;

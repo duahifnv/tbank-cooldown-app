@@ -11,7 +11,7 @@ public record WishedPurchases(List<PurchaseDto> purchases) {
 
     public record PurchaseDto(UUID id,
                               String name,
-                              BigDecimal price,
+                              BigDecimal cost,
                               PurchaseCategory category,
                               LocalDate wishedDate,
                               int coolingTimeout) {
