@@ -16,7 +16,7 @@ public interface PurchaseMapper {
     List<CompletedPurchases.PurchaseDto> toDtos(List<Purchase> purchases);
 
     @Mapping(source = "purchasedAt", target = "wishedDate")
-    @Mapping(target = "coolingTimeout", expression = "java(new java.util.Random().nextInt(0, 10000))") // временно
+    @Mapping(target = "coolingTimeout", expression = "java(new java.util.Random().nextInt(0, 10000))") // todo: временно
     WishedPurchases.PurchaseDto toWishedDto(Purchase purchase);
     List<WishedPurchases.PurchaseDto> toWishedDtos(List<Purchase> purchases);
 

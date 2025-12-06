@@ -4,11 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import org.svids.tbankcooldownapi.dto.analyze.AutoCoolingDataDto;
-import org.svids.tbankcooldownapi.dto.analyze.CoolingDataDto;
-import org.svids.tbankcooldownapi.dto.analyze.ManualCoolingDataDto;
-import org.svids.tbankcooldownapi.dto.purchase.PurchaseAnalysisRequest;
-import org.svids.tbankcooldownapi.dto.purchase.PurchaseAnalysisResult;
+import org.svids.tbankcooldownapi.dto.analyze.data.AutoCoolingData;
+import org.svids.tbankcooldownapi.dto.analyze.data.CoolingData;
+import org.svids.tbankcooldownapi.dto.analyze.data.ManualCoolingData;
+import org.svids.tbankcooldownapi.dto.analyze.data.PurchaseAnalysisResult;
+import org.svids.tbankcooldownapi.dto.analyze.request.PurchaseAnalysisRequest;
 import org.svids.tbankcooldownapi.entity.*;
 import org.svids.tbankcooldownapi.repository.AutoCoolingRepo;
 import org.svids.tbankcooldownapi.repository.ManualCoolingRepo;
@@ -58,7 +58,7 @@ public class PurchaseService {
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR));
 
             int comfortableDays = autoCoolingService.calculateComfortableDays(autoCooling, request.cost());
-            CoolingDataDto coolingData = new AutoCoolingDataDto(autoCooling.getMonthBudget(), autoCooling.getTotalSavings(), autoCooling.getMonthSalary());
+            CoolingData coolingData = new AutoCoolingData(autoCooling.getMonthBudget(), autoCooling.getTotalSavings(), autoCooling.getMonthSalary());
 
             return comfortableDays != 0 ?
                     PurchaseAnalysisResult.withCooling(true, coolingData, comfortableDays) :
@@ -67,7 +67,7 @@ public class PurchaseService {
             ManualCooling manualCooling = manualCoolingRepo.findByUser_Id(userId)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR));
 
-            CoolingDataDto coolingData = new ManualCoolingDataDto(manualCooling.getMinCost(), manualCooling.getMaxCost());
+            CoolingData coolingData = new ManualCoolingData(manualCooling.getMinCost(), manualCooling.getMaxCost());
 
             return isManualCooling(request, manualCooling) ?
                     PurchaseAnalysisResult.withCooling(false, coolingData, manualCooling.getCoolingTimeout()) :

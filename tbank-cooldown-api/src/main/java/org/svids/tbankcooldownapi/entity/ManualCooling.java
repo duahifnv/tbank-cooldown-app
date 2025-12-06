@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -22,12 +23,19 @@ public class ManualCooling {
     private User user;
 
     @Column(name = "min_cost", nullable = false, precision = 10, scale = 2)
-    private BigDecimal minCost;
+    private BigDecimal minCost = BigDecimal.valueOf(0);
 
     @Column(name = "max_cost", nullable = false, precision = 10, scale = 2)
-    private BigDecimal maxCost;
+    private BigDecimal maxCost = BigDecimal.valueOf(10000);
 
     @Column(name = "cooling_timeout", nullable = false)
-    private Integer coolingTimeout;
+    private Integer coolingTimeout = 1;
 
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt = LocalDateTime.now();
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 }

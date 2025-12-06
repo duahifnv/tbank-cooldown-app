@@ -1,4 +1,4 @@
-package org.svids.tbankcooldownapi.dto.purchase;
+package org.svids.tbankcooldownapi.dto.analyze.request;
 
 import org.svids.tbankcooldownapi.entity.PurchaseCategory;
 

@@ -1,16 +1,28 @@
 package org.svids.tbankcooldownapi.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.svids.tbankcooldownapi.entity.AutoCooling;
+import org.svids.tbankcooldownapi.entity.User;
+import org.svids.tbankcooldownapi.repository.AutoCoolingRepo;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class AutoCoolingService {
-    
+
+    private final AutoCoolingRepo autoCoolingRepo;
+
+    public void initializeCooling(User user) {
+        AutoCooling autoCooling = new AutoCooling();
+        autoCooling.setUser(user);
+        autoCoolingRepo.save(autoCooling);
+    }
+
     /**
      * Рассчитывает, через сколько дней покупка станет комфортной
      * 
