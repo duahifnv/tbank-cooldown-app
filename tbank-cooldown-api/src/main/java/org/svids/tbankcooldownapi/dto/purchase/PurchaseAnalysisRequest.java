@@ -4,5 +4,5 @@ import org.svids.tbankcooldownapi.entity.PurchaseCategory;
 
 import java.math.BigDecimal;
 
-public record PurchaseAnalysisRequest(String name, BigDecimal price, PurchaseCategory category) {
+public record PurchaseAnalysisRequest(String name, BigDecimal cost, PurchaseCategory category) {
 }

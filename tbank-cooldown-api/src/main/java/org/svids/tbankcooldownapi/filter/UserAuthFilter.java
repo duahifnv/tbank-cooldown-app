@@ -11,6 +11,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.svids.tbankcooldownapi.dto.AuthDto;
 import org.svids.tbankcooldownapi.repository.UserRepo;
 
 import java.io.IOException;
@@ -48,7 +49,7 @@ public class UserAuthFilter extends OncePerRequestFilter {
         }
 
         // Получаем X-USER-ID из заголовка
-        String userIdHeader = request.getHeader("X-USER-ID");
+        String userIdHeader = request.getHeader(AuthDto.AUTH_HEADER);
         
         if (userIdHeader == null || userIdHeader.isBlank()) {
             log.warn("Missing X-USER-ID header for path: {}", requestPath);
