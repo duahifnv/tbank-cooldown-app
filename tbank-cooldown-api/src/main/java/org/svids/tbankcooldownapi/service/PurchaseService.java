@@ -11,6 +11,7 @@ import org.svids.tbankcooldownapi.dto.analyze.data.PurchaseAnalysisResult;
 import org.svids.tbankcooldownapi.dto.analyze.request.PurchaseAnalysisRequest;
 import org.svids.tbankcooldownapi.entity.*;
 import org.svids.tbankcooldownapi.repository.PurchaseRepo;
+import org.svids.tbankcooldownapi.service.calculator.BudgetData;
 
 import java.util.List;
 import java.util.Optional;
@@ -58,8 +59,9 @@ public class PurchaseService {
         if (isAutoCoolingEnabled) {
             AutoCooling autoCooling = autoCoolingService.findByUserId(userId)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR));
+            var budgetData = new BudgetData(autoCooling.getMonthBudget(), autoCooling.getTotalSavings(), autoCooling.getMonthSalary());
 
-            int comfortableDays = autoCoolingService.calculateComfortableDays(autoCooling, request.cost());
+            int comfortableDays = autoCoolingService.calculateDays(budgetData, request.cost());
             CoolingData coolingData = new AutoCoolingData(autoCooling.getMonthBudget(), autoCooling.getTotalSavings(), autoCooling.getMonthSalary());
 
             return comfortableDays != 0 ?

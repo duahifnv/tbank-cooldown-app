@@ -29,7 +29,7 @@ public class LinkParserService {
 
     public Optional<ParsedProduct> parseByUrl(String url) {
         try {
-            Document doc = scrapingService.fetchRussianSite(url);
+            Document doc = scrapingService.fetchDocument(url);
             if (doc == null) {
                 return Optional.empty();
             }

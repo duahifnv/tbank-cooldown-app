@@ -25,7 +25,7 @@ public class ScrapingService {
     @Value("${scraping.api.url:}")
     private String apiUrl;
 
-    public Document fetchRussianSite(String targetUrl) {
+    public Document fetchDocument(String targetUrl) {
         if (apiKey == null || apiKey.isEmpty()) {
             log.error("Scraping API key is not configured");
             return null;
@@ -40,6 +40,7 @@ public class ScrapingService {
             params.put("block_resources", "false"); // ВАЖНО: false для российских сайтов
             params.put("premium_proxy", "true");
             params.put("stealth_proxy", "true");
+            params.put("premium", "true");
 
             // Формируем URL
             String apiUrl = buildApiUrl(params);
