@@ -16,6 +16,11 @@ spring:
     error:
       include-message: always
 
+logging:
+  level:
+    root: INFO
+    org.svids.tbankcooldownapi.service: DEBUG
+
 server:
   port: 8080
 
