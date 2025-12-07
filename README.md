@@ -4,6 +4,8 @@
 
 Проект создан в рамках хакатона за 48 часов.
 
+([https://github.com/user/repo/blob/branch/other_file.md](https://github.com/duahifnv/tbank-cooldown-app/blob/main/demo2.gif))
+
 ## Основные функции
 
 - **Анализ покупок на импульсивность**:
