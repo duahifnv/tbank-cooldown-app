@@ -11,7 +11,11 @@ import SwiftUI
 struct tbank_cooldown_clientApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainTabView()
         }
     }
 }
+
+#Preview(body: {
+    MainTabView()
+})
