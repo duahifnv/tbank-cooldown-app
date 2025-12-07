@@ -28,6 +28,7 @@ scraping:
   api:
     key: ${SCRAPPING_KEY}
     url: ${SCRAPPING_URL}
+  timeoutms: 60
 
 tunnel:
   url: ${TUNNEL_URL}

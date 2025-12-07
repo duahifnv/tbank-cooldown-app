@@ -10,6 +10,8 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 import org.svids.tbankcooldownapi.dto.parser.ParsedProduct;
 import org.svids.tbankcooldownapi.entity.PurchaseCategory;
+import org.svids.tbankcooldownapi.service.scrapping.DemoScraperService;
+import org.svids.tbankcooldownapi.service.scrapping.ScrapingService;
 
 import java.math.BigDecimal;
 import java.net.URI;
@@ -22,7 +24,7 @@ import java.util.regex.Pattern;
 @Slf4j
 public class LinkParserService {
 
-    private final ScrapingService scrapingService;
+    private final DemoScraperService scrapingService;
 
     private record ProductInfo(String name, String price) {
     }
@@ -31,8 +33,11 @@ public class LinkParserService {
         try {
             Document doc = scrapingService.fetchDocument(url);
             if (doc == null) {
+                log.error("Unable to parse document from url {}", url);
                 return Optional.empty();
             }
+
+            log.debug("Successfully parse document from url {}", url);
 
             // 1. Пробуем получить из OpenGraph
             String ogTitle = doc.select("meta[property=og:title]").attr("content");
